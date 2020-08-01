@@ -1,6 +1,9 @@
 package com.senshig.myapp.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import com.senshig.myapp.config.appServlet.ServletConfig;
 
@@ -34,10 +37,21 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //		<url-pattern>*.do</url-pattern>
 //	</servlet-mapping>
 	
+
 	@Override
 	protected String[] getServletMappings() {
 		// TODO Auto-generated method stub
 		return new String[] {"*.do"};
 	}
+	
+//	@Bean
+//	public UrlBasedViewResolver urlBasedResolver() {
+//		UrlBasedViewResolver u = new UrlBasedViewResolver();
+//		u.setOrder(1);
+//		u.setViewClass(JstlView.class);
+//		u.setPrefix("/WEB-INF/views/member");
+//		u.setSuffix(".jsp");
+//		return u;
+//	}
 
 }
