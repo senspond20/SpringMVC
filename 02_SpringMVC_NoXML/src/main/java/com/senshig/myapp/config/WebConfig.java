@@ -2,6 +2,8 @@ package com.senshig.myapp.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.senshig.myapp.config.appServlet.ServletConfig;
+
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
 
 	@Override
@@ -12,14 +14,30 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//		servlet-context.xml을 대신한다.
+		return new Class[] {ServletConfig.class};
+ 	}
 
+//	<!-- Processes application requests -->
+//	<servlet>
+//		<servlet-name>appServlet</servlet-name>
+//		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+//		<init-param>
+//			<param-name>contextConfigLocation</param-name>
+//			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+//		</init-param>
+//		<load-on-startup>1</load-on-startup>
+//	</servlet>
+//		
+//	<servlet-mapping>
+//		<servlet-name>appServlet</servlet-name>
+//		<url-pattern>*.do</url-pattern>
+//	</servlet-mapping>
+	
 	@Override
 	protected String[] getServletMappings() {
 		// TODO Auto-generated method stub
-		return null;
+		return new String[] {"*.do"};
 	}
 
 }
