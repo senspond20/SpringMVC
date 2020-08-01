@@ -29,7 +29,37 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 회원 관련 -->
+	<servlet>
+		<servlet-name>memberServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/member-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>memberServlet</servlet-name>
+		<url-pattern>*.me</url-pattern>
+	</servlet-mapping>
     
+<!--     게시판 관련 -->
+<!--     <servlet> -->
+<!-- 		<servlet-name>boardServlet</servlet-name> -->
+<!-- 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value>/WEB-INF/spring/appServlet/board-context.xml</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</servlet> -->
+	
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>memberServlet</servlet-name> -->
+<!-- 		<url-pattern>*.bo</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+	
 <!-- 모든 URL 요청에 대해 UTF-8로  인코딩 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

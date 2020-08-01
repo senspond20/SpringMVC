@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!--  원래 servlet-context는 기본적으로 가지고 있는것이 mvc이고 -->	
+<!--  member-context은 기존적으로 가지고 있는것이 beans이다. -->
+
+<!-- <annotation-driven /> -->
+<!-- 에러 : Invalid element name: - annotation-driven One of the following is expected: ...
+	annotation-driven 은 mvc안에 있기때문에 찾을 수가 없다.-->
+
+	<mvc:annotation-driven />
+<!-- - The prefix "mvc" for element "mvc:annotation-drvien" is not  -->
+<!--  해결 : namespase에서 mvc를 추가한다. -->
+	
+	<mvc:resources mapping ="/resources/**" location ="/resources/"/>
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value ="/WEB-INF/views/member/" />
+		<property name="suffix" value =".jsp" />
+	</bean>
+	
+	<context:component-scan base-package="com.senshig.myapp.member" />
+</beans>

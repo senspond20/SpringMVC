@@ -160,7 +160,9 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>   
+		
+		     
 	</dependencies>
     <build>
         <plugins>
@@ -178,6 +180,17 @@
                     <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
             </plugin>
+            
+            <!--  설정 -->
+             <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-war-plugin</artifactId>
+		        <version>3.2.0</version>
+		        <configuration>
+		            <failOnMissingWebXml>false</failOnMissingWebXml>
+		        </configuration>
+		    </plugin>
+		    
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -188,6 +201,7 @@
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+                    
                 </configuration>
             </plugin>
             <plugin>
