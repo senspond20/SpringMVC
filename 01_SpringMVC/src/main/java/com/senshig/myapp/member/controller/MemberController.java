@@ -4,11 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.senshig.myapp.member.model.service.MemberService;
-import com.senshig.myapp.member.model.service.MemberServiceImpl;
 import com.senshig.myapp.member.model.vo.Member;
 
 @Controller
@@ -67,40 +67,41 @@ public class MemberController {
 //		//
 //			 
 //	  }
-	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
-	  public String memberLogin( Member m, HttpSession session) 
-	  { 
-		  System.out.println(m);
-		  
-		  System.out.println(mService.hashCode());
-		  Member loginUser = mService.memberLogin(m);
-		  
-		  if(loginUser !=null) {
-			  session.setAttribute("loginUser", loginUser);
-		  }
-		  // redirect 가 있기떄문에  다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
-		  return "redirect:home.do";			 
-	  }
+//	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
+//	  public String memberLogin( Member m, HttpSession session) 
+//	  { 
+//		  System.out.println(m);
+//		  
+//		  System.out.println(mService.hashCode());
+//		  Member loginUser = mService.memberLogin(m);
+//		  
+//		  if(loginUser !=null) {
+//			  session.setAttribute("loginUser", loginUser);
+//		  }
+//		  // redirect 가 있기떄문에  다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
+//		  return "redirect:home.do";			 
+//	  }
 	
 	/********** 요청 후 전달하고자하는 데이터가 있을 경우 *************/
 	// 1. Model 객체를 사용하는 방법
-	/*
-	 * @RequestMapping(value ="login.me", method=RequestMethod.POST) public String
-	 * memberLogin(Member m, HttpSession session, Model model) {
-	 * System.out.println(m);
-	 * 
-	 * // MemberService mService = new MemberServiceImpl();
-	 * System.out.println(mService.hashCode());
-	 * 
-	 * Member loginUser = mService.memberLogin(m);
-	 * 
-	 * if(loginUser != null) { session.setAttribute("loginUser", loginUser); //
-	 * redirect 가 있기떄문에 // 다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
-	 * }else { model.addAttribute("message","로그인에 실패하였습니다."); return
-	 * "../common/errorPage"; }
-	 * 
-	 * }
-	 */
+//	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
+//	  public String memberLogin(Member m, HttpSession session, Model model) {
+//		  System.out.println(m);
+//		  
+//		  // MemberService mService = new MemberServiceImpl();
+//		  System.out.println(mService.hashCode());
+//		  
+//		  Member loginUser = mService.memberLogin(m);
+//		  
+//			  if(loginUser != null) { 
+//				  session.setAttribute("loginUser", loginUser); 
+//				  return "redirect:home.do";	
+//			  }else { 
+//				  model.addAttribute("message","로그인에 실패하였습니다."); 
+//			  	  return "../common/errorPage"; 
+//			  }
+//	  }
+	 
 
 	// 2. ModelAndView 객체를 사용하는 방법 : Model + View
 /*	@RequestMapping(value = "login.me", method = RequestMethod.POST)
@@ -128,22 +129,24 @@ public class MemberController {
 
 	// 3. session에 저장 할 때 @SessionAttiributes 사용하기 : Model
 	// Model에 attibute가 추가될 때 자동으로 키 값을 찾아 세션에 등록하는 어노테이션
-
-	/*
-	 * @RequestMapping(value ="login.me", method=RequestMethod.POST) public String
-	 * memberLogin(Member m, Model model) { System.out.println(m);
-	 * 
-	 * // MemberService mService = new MemberServiceImpl();
-	 * System.out.println(mService.hashCode());
-	 * 
-	 * Member loginUser = mService.memberLogin(m);
-	 * 
-	 * if(loginUser != null) { model.addAttribute("loginUser", loginUser); return
-	 * "redirect:home.do";
-	 * 
-	 * }else { model.addAttribute("message","로그인에 실패하였습니다."); return
-	 * "../common/errorPage"; }
-	 * 
-	 * }
-	 */
+	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
+	  public String memberLogin(Member m, Model model) { 
+		  System.out.println(m);
+	  
+		  // MemberService mService = new MemberServiceImpl();
+		  System.out.println(mService.hashCode());
+		  
+		  Member loginUser = mService.memberLogin(m);
+		  
+		  if(loginUser != null) { 
+			  model.addAttribute("loginUser", loginUser); 
+			  return "redirect:home.do";
+		  
+		  }else { 
+			  model.addAttribute("message","로그인에 실패하였습니다."); 
+			  return "../common/errorPage"; 
+		  }
+	  
+	  }
+	 
 }

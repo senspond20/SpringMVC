@@ -50,10 +50,11 @@
 		</dependency>
 
 		<!--  MySQL 을 사용하기 위한 라이브러리-->
+		<!--  자신의 MySQL 버전에 맞게 써야한다. -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>6.0.6</version>
+		    <version>8.0.21</version>
 		</dependency>
 		
 		<!-- Database 오라클 사용을 위한 라이브러리 -->

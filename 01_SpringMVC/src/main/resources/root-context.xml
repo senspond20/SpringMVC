@@ -7,15 +7,30 @@
 	<!-- DB , 시큐리티 관련한 부분 -->
 	<!-- 기본위치는 WEB-INF spring 폴더 밑에 있지만 resurces폴더아래로 변경한다.-->
 	
+<!-- 오라클 -->
+<!-- 	<bean id ="dataSource" class ="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value ="oracle.jdbc.driver.OracleDriver"></property> -->
+<!-- 		<property name="url" value ="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
+<!-- 		<property name="username" value="Spring"></property> -->
+<!-- 		<property name="password" value="Spring"></property> -->
+<!-- 		<property name="defaultAutoCommit" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id ="dataSource" class ="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value ="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value ="jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="Spring"></property>
-		<property name="password" value="Spring"></property>
-		<property name="defaultAutoCommit" value="false" />
+<!-- MySQL -->
+	<bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+       <property name="url" value="jdbc:mysql://localhost:3306/spring?useSSL=false&amp;serverTimezone=UTC" />
+<!-- 		<property name="url" value="jdbc:mysql://localhost:3306/spring? -->
+<!-- 			useUnicode=yes&amp; -->
+<!-- 			characterEncoding=utf8&amp; -->
+<!-- 			useSSL=false&amp; -->
+<!-- 			serverTimezone=UTC" /> -->
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
 	</bean>
 	
+
 	<bean id ="sqlSession" class = "org.mybatis.spring.SqlSessionFactoryBean">
 <!-- 		<property name="configLocation" value="/WEB-INF/spring/mybatis-config.xml" /> -->
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
@@ -25,6 +40,9 @@
 	<bean id ="sqlSessionTemplate" class ="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSession" />
 	</bean>
+	
+	
+	
 	
 <!-- 	<bean id="multipartResolver" class ="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
 <!-- 		<property name="maxUploadSize" value="100000000" /> -->
