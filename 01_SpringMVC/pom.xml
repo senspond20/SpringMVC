@@ -13,6 +13,22 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	
+		
+	<!-- 사설 저장소 -->
+	<!-- 2~3개 정도만 권장. 다운로드해서 가져오는것이기때문에 속도 영향 -->
+	<repositories>
+		<repository>
+			<id>Spring Plugins</id>
+			<url>https://repo.spring.io/plugins-release/</url>
+		</repository>
+
+		<repository>
+			<id>Central Repository</id>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -43,11 +59,11 @@
 		<!-- Database 오라클 사용을 위한 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/oracle/ojdbc6 : JDK 8이하 -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 : For JDK 11 -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>com.oracle.database.jdbc</groupId> -->
-<!-- 		    <artifactId>ojdbc8</artifactId> -->
-<!-- 		    <version>19.7.0.0</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+		    <groupId>com.oracle.database.jdbc</groupId>
+		    <artifactId>ojdbc8</artifactId>
+		    <version>19.7.0.0</version>
+		</dependency>
 
 		<!-- mybatis 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
@@ -72,6 +88,8 @@
 		</dependency>
 		
 		<!-- 커넥션 풀을 사용하기 위한 라이브러리 -->
+<!-- 		웹 컨테이너(WAS)가 실행되면서 DB와 미리 connection(연결)을 해놓은 객체들을 pool에 저장해두었다가. -->
+<!-- 		클라이언트 요청이 오면 connection을 빌려주고, 처리가 끝나면 다시 connection을 반납받아 pool에 저장하는 방식을 말한다. -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>

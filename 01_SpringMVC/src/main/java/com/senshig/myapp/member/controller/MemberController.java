@@ -1,8 +1,9 @@
 package com.senshig.myapp.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -55,34 +56,32 @@ public class MemberController {
 	// 회원가입할때 혹은 게시글 작성 등 받을것이 많을게 굉장히 유용하게 쓸수 있다.
 	// ModelAttribute 쓰고 ,(쉼표)로 RequestParam 둘다 받아서 쓸 수도 있다.
 	// 5. @ModelAttribute 생략
-	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
-	  public void memberLogin(/*@ModelAttribute Member m*/ Member m) 
-	  { 
-		  System.out.println(m); 
-		  
-		// 실행될때마다 주소값이 계속 바낀다. 의존도가 높다.
-		  MemberService mService = new MemberServiceImpl();
-		  System.out.println(mService.hashCode());   
-		//
-			 
-	  }
-	 
-	
-//	  @RequestMapping(value ="login.me", method=RequestMethod.POST) public String
-//	  memberLogin(Member m, HttpSession session) { System.out.println(m);
-//	  
-//	  // MemberService mService = new MemberServiceImpl();
-//	  System.out.println(mService.hashCode());
-//	  
-//	  Member loginUser = mService.memberLogin(m);
-//	  
-//	  if(loginUser != null) { session.setAttribute("loginUser", loginUser); }
-//	  
-//	  // redirect 가 있기떄문에 // 다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
-//	  
+//	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
+//	  public void memberLogin(/*@ModelAttribute Member m*/ Member m) 
+//	  { 
+//		  System.out.println(m); 
+//		  
+//		// 실행될때마다 주소값이 계속 바낀다. 의존도가 높다.
+//		  MemberService mService = new MemberServiceImpl();
+//		  System.out.println(mService.hashCode());   
+//		//
+//			 
 //	  }
-	 
-
+	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
+	  public String memberLogin( Member m, HttpSession session) 
+	  { 
+		  System.out.println(m);
+		  
+		  System.out.println(mService.hashCode());
+		  Member loginUser = mService.memberLogin(m);
+		  
+		  if(loginUser !=null) {
+			  session.setAttribute("loginUser", loginUser);
+		  }
+		  // redirect 가 있기떄문에  다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
+		  return "redirect:home.do";			 
+	  }
+	
 	/********** 요청 후 전달하고자하는 데이터가 있을 경우 *************/
 	// 1. Model 객체를 사용하는 방법
 	/*
