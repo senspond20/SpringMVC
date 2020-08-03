@@ -7,7 +7,7 @@
 + Spring framewrok 5.2.6
 + Tomcat 8.5.
 + Mybatis
-+ Oracle DB 
++ Oracle DB -> MySQL
 
 
 

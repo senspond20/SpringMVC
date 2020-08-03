@@ -50,7 +50,6 @@
 		</dependency>
 
 		<!--  MySQL 을 사용하기 위한 라이브러리-->
-		<!--  자신의 MySQL 버전에 맞게 써야한다. -->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
@@ -172,7 +171,19 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-			
+		<!-- json라이브러리 등록 -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
+		<!-- gson라이브러리 등록 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -180,9 +191,20 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>   
-		
-		     
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-all</artifactId>
+		    <version>1.9.5</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		    <scope>test</scope>
+		</dependency>	     
 	</dependencies>
+	
     <build>
         <plugins>
             <plugin>

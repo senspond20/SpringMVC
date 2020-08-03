@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
-<aop-project name="SpringMVC_STUDY"/>
+<aop-project name="02_SpringMVC_NoXML"/>
+<aop-project name="01_SpringMVC"/>
+<aop-project name="00_SpringMVC_Test"/>
+<aop-project name="03_SpringMVC_Ajax"/>
 </aop-reference-model>

@@ -7,16 +7,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.senshig.myapp.member.model.service.MemberService;
 import com.senshig.myapp.member.model.vo.Member;
 
+// 어떤 세션에다가 집어넣을건지 명시해준다.
+@SessionAttributes("loginUser")
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService mService;
-	
+
 	/********** 파라미터 전송 받는 방법 **********/
 //	1. HttpServletRequest를 통해 전송받기(JSP/Servelt방식)
 //	@RequestMapping(value="login.me", method = RequestMethod.POST)
@@ -28,7 +31,6 @@ public class MemberController {
 //		System.out.println("pwd :" + pwd);
 //		System.out.println("로그인 처리 메소드");
 //	}
-	
 
 	/********** 요청 후 전달하고자하는 데이터가 있을 경우 *************/
 
@@ -39,18 +41,16 @@ public class MemberController {
 //		 System.out.println("id : " + userId); 
 //		 System.out.println("pwd : " + userPwd); 
 //	 }
-	 
 
 	// 3. @RequestParam 생략
 	// 넘기는 파라미터 값과 받는 매개변수 이름을 일치시키면 된다.
-	
+
 //	 @RequestMapping(value ="login.me", method=RequestMethod.POST) 
 //	 public void memberLogin(String id, String pwd){ 
 //		 System.out.println("id : " + id);
 //		 System.out.println("pwd : " + pwd); 
 //	  }
 //	  
-	 
 
 	// 4. @ModelAttribute 어노테이션 방식
 	// 회원가입할때 혹은 게시글 작성 등 받을것이 많을게 굉장히 유용하게 쓸수 있다.
@@ -81,7 +81,7 @@ public class MemberController {
 //		  // redirect 가 있기떄문에  다른 ````스트링 무시하고 home.do 로 return "redirect:home.do";
 //		  return "redirect:home.do";			 
 //	  }
-	
+
 	/********** 요청 후 전달하고자하는 데이터가 있을 경우 *************/
 	// 1. Model 객체를 사용하는 방법
 //	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
@@ -101,52 +101,66 @@ public class MemberController {
 //			  	  return "../common/errorPage"; 
 //			  }
 //	  }
-	 
 
 	// 2. ModelAndView 객체를 사용하는 방법 : Model + View
-/*	@RequestMapping(value = "login.me", method = RequestMethod.POST)
-	public ModelAndView memberLogin(Member m, HttpSession session, ModelAndView mv) {
-		System.out.println(m);
-
-//		MemberService mService = new MemberServiceImpl();
-		System.out.println(mService.hashCode());
-
-		Member loginUser = mService.memberLogin(m);
-
-		if (loginUser != null) {
-			session.setAttribute("loginUser", loginUser);
-			mv.setViewName("redirect:home.do");
-
-		} else {
-//			mv.addObject("message","로그인에 실패하였습니다.");
+//	@RequestMapping(value = "login.me", method = RequestMethod.POST)
+//	public ModelAndView memberLogin(Member m, HttpSession session, ModelAndView mv) {
+//		System.out.println(m);
+//
+////		MemberService mService = new MemberServiceImpl();
+//		System.out.println(mService.hashCode());
+//
+//		Member loginUser = mService.memberLogin(m);
+//
+//		if (loginUser != null) {
+//			session.setAttribute("loginUser", loginUser);
+//			mv.setViewName("redirect:home.do");
+//
+//		} else {
+//			mv.addObject("message", "로그인에 실패하였습니다.");
 //			mv.setViewName("../common/errorPage");
-			throw new MemberException("로그인에 실패하였습니다.");
-		}
-
-		return mv;
-
-	}*/
+////			throw new MemberException("로그인에 실패하였습니다.");
+//		}
+//		return mv;
+//	}
 
 	// 3. session에 저장 할 때 @SessionAttiributes 사용하기 : Model
 	// Model에 attibute가 추가될 때 자동으로 키 값을 찾아 세션에 등록하는 어노테이션
-	  @RequestMapping(value ="login.me", method=RequestMethod.POST) 
-	  public String memberLogin(Member m, Model model) { 
-		  System.out.println(m);
-	  
-		  // MemberService mService = new MemberServiceImpl();
-		  System.out.println(mService.hashCode());
-		  
-		  Member loginUser = mService.memberLogin(m);
-		  
-		  if(loginUser != null) { 
-			  model.addAttribute("loginUser", loginUser); 
-			  return "redirect:home.do";
-		  
-		  }else { 
-			  model.addAttribute("message","로그인에 실패하였습니다."); 
-			  return "../common/errorPage"; 
-		  }
-	  
-	  }
-	 
+	@RequestMapping(value = "login.me", method = RequestMethod.POST)
+	public String memberLogin(Member m, Model model) {
+		System.out.println(m);
+
+		// MemberService mService = new MemberServiceImpl();
+		System.out.println(mService.hashCode());
+		Member loginUser = mService.memberLogin(m);
+
+		if (loginUser != null) {
+			model.addAttribute("loginUser", loginUser);
+			return "redirect:home.do";
+		} else {
+			model.addAttribute("message", "로그인에 실패하였습니다.");
+			return "../common/errorPage";
+		}
+	}
+
+// @Component 
+// @Controller , @Service, @Repository
+
+// @Component bean등록을 하는데
+// @Controller , @Service, @Repository 도 bean을 등록한다는점에서 차이점이 없지만
+// 어떤 목적으로 사용할것인지에 대한 의미부여.
+// 만약 vo를 bean으로 등록하여 사용하겠다 -> @Component
+
+// 로그아웃 컨트롤러
+	@RequestMapping("logout.me")
+	public String logout(HttpSession session) {
+		
+		// 세션초기화
+		session.invalidate();
+		// 컨트롤러 2번으로는 로그아웃이 되지만
+		// 컨트롤러 3번으로는 로그아웃이 안된다.
+		return "redirect:home.do";
+	}
 }
+
+

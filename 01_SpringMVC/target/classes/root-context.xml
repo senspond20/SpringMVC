@@ -17,6 +17,7 @@
 <!-- 	</bean> -->
 
 <!-- MySQL -->
+
 	<bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
@@ -29,7 +30,7 @@
 		<property name="username" value="root" />
 		<property name="password" value="1234" />
 	</bean>
-	
+
 
 	<bean id ="sqlSession" class = "org.mybatis.spring.SqlSessionFactoryBean">
 <!-- 		<property name="configLocation" value="/WEB-INF/spring/mybatis-config.xml" /> -->
