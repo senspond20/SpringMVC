@@ -13,4 +13,11 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.memberLogin", m);
 	}
 
+	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("memberMapper.insertMember", m);
+	}
+	public int checkIdDup(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("memberMapper.checkIdDup", id);
+	}
+
 }

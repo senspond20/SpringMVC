@@ -7,4 +7,8 @@ import com.senshig.myapp.member.model.vo.Member;
 // 2. 인터페이스명을 그대로 두고 실제로 구현하는 MemberServiceImpl 이름이 바뀌어도 소스코드가 문제없이 동작할 수 있다.
 public interface MemberService {
 	Member memberLogin(Member m);
+
+	int insertMember(Member m);
+	
+	int checkIdDup(String id);
 }

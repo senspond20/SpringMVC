@@ -18,7 +18,7 @@
    <h1 align="center">회원가입</h1>
    
    <div class="centerText">
-      <form action="minsert.me" method="post" id="joinForm">
+      <form action="minsert.me" method="post" id="joinForm" onsubmit ="return validate();">
          <table>
             <tr>
                <th>* 아이디</th>
@@ -89,8 +89,8 @@
             
             <tr>
                <td colspan="2" align="center">
-                  <button onclick="validate();">가입하기</button>
-                  <input type="reset" value="취소하기">
+                  <input type="submit" value ="가입하기" />
+                  <input type="reset"  value="취소하기">
                   <button type="button" onclick="location.href='home.do'">시작 페이지로 이동</button>
                </td>
             </tr>
@@ -100,6 +100,7 @@
    
    <script>
    		$('#userId').on('keyup', function(){
+   			console.log('fdf');
    			var userId = $(this).val().trim();
    			if(userId.length < 4){
    				$('.guide').hide();
@@ -107,6 +108,7 @@
    				return;
    			}
    			
+   			// 중복체크
    			$.ajax({
    				url : 'dupid.me',
    				data : {id:userId},
@@ -139,7 +141,7 @@
    			}else{
    				$('#joinForm').submit();
    			}
-   		}
+    	}
    
    </script>
    

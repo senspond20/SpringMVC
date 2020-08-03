@@ -3,6 +3,8 @@ E:\workspace\JavaWorkSpace\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core
 \01_SpringMVC\src\main\java
 E:\workspace\JavaWorkSpace\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1396248430.index
 \02_SpringMVC_NoXML\src\main\java
+E:\workspace\JavaWorkSpace\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2910305312.index
+\01_SpringMVC\src\main\java
 E:\workspace\JavaWorkSpace\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2430227496.index
 \01_SpringMVC\src\main\java
 E:\workspace\JavaWorkSpace\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2479862570.index

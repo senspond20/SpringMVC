@@ -1,5 +1,8 @@
 package com.senshig.myapp.member.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.senshig.myapp.member.exception.MemberException;
 import com.senshig.myapp.member.model.service.MemberService;
 import com.senshig.myapp.member.model.vo.Member;
 
@@ -134,7 +138,7 @@ public class MemberController {
 
 	// 3. session에 저장 할 때 @SessionAttiributes 사용하기 : Model
 	// Model에 attibute가 추가될 때 자동으로 키 값을 찾아 세션에 등록하는 어노테이션
-	@RequestMapping(value = "login.me", method = RequestMethod.POST)
+	@RequestMapping(value = "login-old2.me", method = RequestMethod.POST)
 	public String memberLogin2(Member m, Model model) {
 		System.out.println(m);
 
@@ -146,10 +150,36 @@ public class MemberController {
 			model.addAttribute("loginUser", loginUser);
 			return "redirect:home.do";
 		} else {
-			model.addAttribute("message", "로그인에 실패하였습니다.");
-			return "../common/errorPage";
+//			model.addAttribute("message", "로그인에 실패하였습니다.");
+//			return "../common/errorPage";
+			throw new MemberException("로그인에 실패하였습니다.");
 		}
 	}
+	
+	// 3번 암호화후 로그인 되도록
+	@RequestMapping(value = "login.me", method = RequestMethod.POST)
+	public String memberLogin3(Member m, Model model) {
+		System.out.println(m);
+
+		// MemberService mService = new MemberServiceImpl();
+		System.out.println(mService.hashCode());
+		Member loginUser = mService.memberLogin(m);
+
+		
+//		bcryptPasswordEncoder.matches(rawPassword, encodedPassword)
+// 		rawPassword : 내가 지금 입력한 패스워드
+//		encodedPassword : db에 있는 패스워드
+		
+		if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
+			model.addAttribute("loginUser", loginUser);
+			return "redirect:home.do";
+		}else {
+//			model.addAttribute("message", "로그인에 실패하였습니다.");
+//			return "../common/errorPage";
+			throw new MemberException("로그인에 실패하였습니다.");
+		}
+	}
+	
 
 // @Component 
 // @Controller , @Service, @Repository
@@ -182,6 +212,20 @@ public class MemberController {
 	public String enrollView() {
 		return "memberJoin";
 	}
+	
+	@RequestMapping("dupid.me")
+	public void idDuplicateCheck(@RequestParam("id") String id,
+								   HttpServletResponse response) {
+		
+		int result = mService.checkIdDup(id);
+		boolean isUsable = result == 0 ? true : false;
+		
+		try {
+			response.getWriter().print(isUsable);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 // 회원가입
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m,@RequestParam("post") String post,
@@ -195,12 +239,18 @@ public class MemberController {
 		//Spring에서는 bcrypt 사용. 
 		
 		// bcrypt 암호화 방식
-		// SHA512 방식은 hash 단방향 해쉬 같은값에 대해서 같은값을 가지지만,
-		// bcrypt : Encryption 양방향  같은값에 대해서도 계속 바뀐다.
+		// SHA512 방식은 hash 단방향 해쉬 / bcrypt : Encryption 양방향 
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		System.out.println(encPwd);
-				
-		return null;
+		m.setPwd(encPwd);
+		
+		int result = mService.insertMember(m);
+		if(result > 0) {
+			return "redirect:home.do";
+		}else {
+			throw new MemberException("회원가입에 실패하였습니다.");	
+		}
+	
 	}
 }
 
