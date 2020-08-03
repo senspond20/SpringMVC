@@ -3,11 +3,16 @@ package com.senshig.myapp.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.senshig.myapp.member.model.service.MemberService;
 import com.senshig.myapp.member.model.vo.Member;
@@ -19,6 +24,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	/********** 파라미터 전송 받는 방법 **********/
 //	1. HttpServletRequest를 통해 전송받기(JSP/Servelt방식)
@@ -103,31 +111,31 @@ public class MemberController {
 //	  }
 
 	// 2. ModelAndView 객체를 사용하는 방법 : Model + View
-//	@RequestMapping(value = "login.me", method = RequestMethod.POST)
-//	public ModelAndView memberLogin(Member m, HttpSession session, ModelAndView mv) {
-//		System.out.println(m);
-//
-////		MemberService mService = new MemberServiceImpl();
-//		System.out.println(mService.hashCode());
-//
-//		Member loginUser = mService.memberLogin(m);
-//
-//		if (loginUser != null) {
-//			session.setAttribute("loginUser", loginUser);
-//			mv.setViewName("redirect:home.do");
-//
-//		} else {
-//			mv.addObject("message", "로그인에 실패하였습니다.");
-//			mv.setViewName("../common/errorPage");
-////			throw new MemberException("로그인에 실패하였습니다.");
-//		}
-//		return mv;
-//	}
+	@RequestMapping(value = "login-old.me", method = RequestMethod.POST)
+	public ModelAndView memberLogin1(Member m, HttpSession session, ModelAndView mv) {
+		System.out.println(m);
+
+//		MemberService mService = new MemberServiceImpl();
+		System.out.println(mService.hashCode());
+
+		Member loginUser = mService.memberLogin(m);
+
+		if (loginUser != null) {
+			session.setAttribute("loginUser", loginUser);
+			mv.setViewName("redirect:home.do");
+
+		} else {
+			mv.addObject("message", "로그인에 실패하였습니다.");
+			mv.setViewName("../common/errorPage");
+//			throw new MemberException("로그인에 실패하였습니다.");
+		}
+		return mv;
+	}
 
 	// 3. session에 저장 할 때 @SessionAttiributes 사용하기 : Model
 	// Model에 attibute가 추가될 때 자동으로 키 값을 찾아 세션에 등록하는 어노테이션
 	@RequestMapping(value = "login.me", method = RequestMethod.POST)
-	public String memberLogin(Member m, Model model) {
+	public String memberLogin2(Member m, Model model) {
 		System.out.println(m);
 
 		// MemberService mService = new MemberServiceImpl();
@@ -151,15 +159,48 @@ public class MemberController {
 // 어떤 목적으로 사용할것인지에 대한 의미부여.
 // 만약 vo를 bean으로 등록하여 사용하겠다 -> @Component
 
-// 로그아웃 컨트롤러
-	@RequestMapping("logout.me")
-	public String logout(HttpSession session) {
-		
-		// 세션초기화
+// 로그아웃 컨트롤러1
+	@RequestMapping("logout-old.me")
+	public String logout1(HttpSession session) {
+		// 세션 정보 삭제
 		session.invalidate();
 		// 컨트롤러 2번으로는 로그아웃이 되지만
 		// 컨트롤러 3번으로는 로그아웃이 안된다.
 		return "redirect:home.do";
+	}
+	
+// 로그아웃 컨틀롤러2	
+	@RequestMapping("logout.me")
+	public String logout2(SessionStatus status) {
+		// 컨트롤러 3번을 쓸 경우
+		status.setComplete();
+		return "redirect:home.do";
+	}
+	
+// 회원가입 페이지 이동
+	@RequestMapping("enrollView.me")
+	public String enrollView() {
+		return "memberJoin";
+	}
+// 회원가입
+	@RequestMapping("minsert.me")
+	public String memberInsert(@ModelAttribute Member m,@RequestParam("post") String post,
+														@RequestParam("address1") String address1,
+														@RequestParam("address2") String address2) {
+		
+		m.setAddress(post + "/" + address1 + "/" + address2 );
+		System.out.println(m);
+		
+		//JSP_Servlet에서 SHA512을 사용했었는데,
+		//Spring에서는 bcrypt 사용. 
+		
+		// bcrypt 암호화 방식
+		// SHA512 방식은 hash 단방향 해쉬 같은값에 대해서 같은값을 가지지만,
+		// bcrypt : Encryption 양방향  같은값에 대해서도 계속 바뀐다.
+		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
+		System.out.println(encPwd);
+				
+		return null;
 	}
 }
 
