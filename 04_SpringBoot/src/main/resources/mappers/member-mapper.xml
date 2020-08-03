@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+ 	<select id ="memberLogin" parameterType="Member" resultMap ="memberResultSet">
+<!-- 암호화 전 -->
+<!--  		select * -->
+<!--  		from member -->
+<!--  		where id = #{id} and pwd =#{pwd} and m_status = 'Y' -->
+
+<!-- 암호화 후 -->
+	select *
+	from member
+	where id =#{id} and m_status = 'Y'
+ 	</select>
+ 	
+ 	<resultMap id="memberResultSet" type ="Member">
+	  	<id property="id" column ="ID" />
+	  	<result property="pwd" column ="PWD" />
+	  	<result property="name" column ="NAME" />
+	  	<result property="email" column ="EMAIL" />
+	   	<result property="gendar" column ="GENDER" />
+	  	<result property="age" column ="AGE" />
+	  	<result property="phone" column ="PHONE" />
+	  	<result property="address" column ="ADDRESS" />
+	  	<result property="enrollDate" column ="ENROLL_DATE" />
+	  	<result property="updateDate" column ="UPDATE_DATE" />
+	  	<result property="mStatus" column ="M_STATUS" />
+ 	</resultMap>
+ 	
+ 	<insert id ="insertMember" >
+ 		insert into Member
+<!--  	오라클 -->
+<!--  		values(#{id}, #{pwd},#{name},#{email},#{gendar},#{age},#{phone},#{address},sysdate,sysdate,default) -->
+ 		
+ 		values(#{id},#{pwd},#{name},#{email},#{gendar},#{age},#{phone},#{address},now(),now(),default)
+ 	</insert>
+ 	
+ 	<select id="checkIdDup" resultType ="_int">
+	  	select count(*)
+	  	from member
+	  	where id=#{id}
+  	</select>
+  
+</mapper>
