@@ -103,7 +103,7 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
   <!--		<version>${org.springframwork-version}</version> -->
-		    <version>5.2.0.RELEASE</version>
+		    <version>5.5.7</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
